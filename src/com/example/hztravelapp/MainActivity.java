@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onclick() {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(MainActivity.this, HotelActivity.class);
+				Intent intent=new Intent(MainActivity.this, TravelActivity.class);
 				startActivity(intent);
 			}
 		});
