@@ -125,6 +125,9 @@ public class TravelActivity extends ActionBarActivity {
 			map.put("oldprice", "50元");
 			map.put("grade", "4.5分");
 			Log.v("+++", "nothing");
+			Log.v("+++", "nothing");
+			Log.v("+++", "nothing");
+			Log.v("+++", "nothing");
 			return map;
 		}
 
