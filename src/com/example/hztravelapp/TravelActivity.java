@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -123,6 +124,7 @@ public class TravelActivity extends ActionBarActivity {
 			map.put("price", "25");
 			map.put("oldprice", "50元");
 			map.put("grade", "4.5分");
+			Log.v("+++", "nothing");
 			return map;
 		}
 
