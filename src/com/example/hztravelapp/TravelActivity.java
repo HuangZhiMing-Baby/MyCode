@@ -5,23 +5,30 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import com.example.adapter.ListAdapter;
+import com.example.utils.AsyncGetNetWorkData;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class TravelActivity extends ActionBarActivity {
 	
+	private AsyncGetNetWorkData asyncGetNetWorkData;
+	private String url="http://192.168.1.134:8080/HZTravelService/servlet/GetData";
 	private Spinner mSpinner;
 	private PullToRefreshListView mPullToRefreshListView;
 	private List<Map<String, Object>> mList=new ArrayList<Map<String,Object>>();
@@ -38,6 +45,31 @@ public class TravelActivity extends ActionBarActivity {
 	private ArrayAdapter<String> adapter;
 	private ListAdapter mListAdapter;
 	private Map<String, Object> map;
+	
+	
+	private Handler handler=new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0x123:
+				try {
+					mList=asyncGetNetWorkData.get();
+					Log.v("*****", mList.toString());
+					mListAdapter=new ListAdapter(TravelActivity.this, mList);
+					mPullToRefreshListView.setAdapter(mListAdapter);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -54,8 +86,8 @@ public class TravelActivity extends ActionBarActivity {
 		
 		
 		mPullToRefreshListView=(PullToRefreshListView) findViewById(R.id.pull_refresh_list);
-		mListAdapter=new ListAdapter(this, getData());
-		mPullToRefreshListView.setAdapter(mListAdapter);
+//		mListAdapter=new ListAdapter(this, getData());
+//		mPullToRefreshListView.setAdapter(mListAdapter);
 		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override
@@ -68,12 +100,29 @@ public class TravelActivity extends ActionBarActivity {
 				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
 				// Do work to refresh the list here.
-				new GetDataTask().execute();
+//				new GetDataTask().execute();
+//				new Thread(new Runnable() {
+//					
+//					@Override
+//					public void run() {
+//						// TODO Auto-generated method stub
+//						try {
+//							Thread.sleep(3000);
+//							Toast.makeText(TravelActivity.this, "No More Data!So 爱干啥啥！", 3000).show();
+//							mPullToRefreshListView.onRefreshComplete();
+//						} catch (Exception e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				}).start();
 			}
 		});
+		asyncGetNetWorkData=new AsyncGetNetWorkData(url, handler,0x123);
+		asyncGetNetWorkData.execute();
 	}
 	
-	public List<Map<String, Object>> getData(){
+	/*public List<Map<String, Object>> getData(){
 		map = new HashMap<String, Object>();
 		map.put("img", R.drawable.xihu1);
 		map.put("title", "新银盏温泉团体门票");
@@ -124,10 +173,6 @@ public class TravelActivity extends ActionBarActivity {
 			map.put("price", "25");
 			map.put("oldprice", "50元");
 			map.put("grade", "4.5分");
-			Log.v("+++", "nothing");
-			Log.v("+++", "nothing");
-			Log.v("+++", "nothing");
-			Log.v("+++", "nothing");
 			return map;
 		}
 
@@ -141,6 +186,6 @@ public class TravelActivity extends ActionBarActivity {
 
 			super.onPostExecute(result);
 		}
-	}
+	}*/
 
 }

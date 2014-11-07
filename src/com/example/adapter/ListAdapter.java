@@ -64,14 +64,14 @@ public class ListAdapter extends BaseAdapter {
 			holder=(ViewHolder) convertView.getTag();
 		}
 		
-		holder.travel_imageview.setImageDrawable(context.getResources().getDrawable((Integer) list.get(position).get("img")));
-		holder.travel_title.setText((String)list.get(position).get("title"));
-		holder.travel_distance.setText((String)list.get(position).get("distance"));
-		holder.travel_summary.setText((String)list.get(position).get("summary"));
-		holder.travel_price.setText((String)list.get(position).get("price"));
+		holder.travel_imageview.setImageDrawable(context.getResources().getDrawable(R.drawable.xihu1));
+		holder.travel_title.setText((String)list.get(position).get("travel_title"));
+		holder.travel_distance.setText((String)list.get(position).get("travel_distance"));
+		holder.travel_summary.setText((String)list.get(position).get("travel_summary"));
+		holder.travel_price.setText(list.get(position).get("travel_price")+"");
 		holder.travel_oldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-		holder.travel_oldprice.setText((String)list.get(position).get("oldprice"));
-		holder.travel_grade.setText((String)list.get(position).get("grade"));
+		holder.travel_oldprice.setText((String)list.get(position).get("travel_oldprice"));
+		holder.travel_grade.setText((String)list.get(position).get("travel_grade"));
 		return convertView;
 	}
 
